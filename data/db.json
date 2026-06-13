@@ -1,0 +1,40 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Laptop",
+      "price": 50000,
+      "quantity": 10,
+      "isDeleted": false
+    },
+    {
+      "id": "2",
+      "name": "Mouse",
+      "price": 500,
+      "quantity": 50,
+      "isDeleted": false
+    },
+    {
+      "id": "3",
+      "name": "Keyboard",
+      "price": 1000,
+      "quantity": 20,
+      "isDeleted": false
+    }
+  ],
+  "orders": [
+    {
+      "id": "1",
+      "productId": 1,
+      "quantity": 2,
+      "totalPrice": 100000
+    },
+     {
+      "id": "2",
+      "productId": 1,
+      "quantity": 3,
+      "totalPrice": 150000
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

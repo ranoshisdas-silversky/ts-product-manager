@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h1>Inventory Management System</h1>
+
+    <div class="dashboard">
+        <div class="card">
+            <h3>Total Sales</h3>
+            <p id="totalSales">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Orders</h3>
+            <p id="totalOrders">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Total Products</h3>
+            <p id="totalProducts">0</p>
+        </div>
+
+        <div class="card">
+            <h3>Best Seller</h3>
+            <p id="bestSellingProduct">-</p>
+        </div>
+    </div>
+
+    <h2>Add Product</h2>
+
+    <form id="productForm">
+        <input type="text" id="name" placeholder="Product Name" required>
+
+        <input type="number" id="price" placeholder="Price" required>
+
+        <input type="number" id="quantity" placeholder="Quantity" required>
+
+        <button type="submit">Add Product</button>
+    </form>
+
+    <h2>Products</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody id="productTable"></tbody>
+    </table>
+
+
+    <h2>Create Order</h2>
+
+<form id="orderForm">
+    <select id="productSelect" required>
+        <option value="">Select Product</option>
+    </select>
+
+    <input
+        type="number"
+        id="orderQuantity"
+        placeholder="Quantity"
+        min="1"
+        required
+    >
+
+    <button type="submit">
+        Create Order
+    </button>
+</form>
+    <h2>Orders</h2>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Amount</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+
+        <tbody id="orderTable"></tbody>
+    </table>
+
+    <script type="module" src="./dist/app.js"></script>
+</body>
+</html>
