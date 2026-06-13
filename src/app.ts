@@ -35,7 +35,7 @@ async function submitProductForm() {
         const quantityInput = document.getElementById("productQuantity") as HTMLInputElement;
 
         const newProduct: Product = {
-            id: Number(Date.now()), 
+            id: '',
             name: nameInput.value,
             price: parseFloat(priceInput.value),
             quantity: parseInt(quantityInput.value),

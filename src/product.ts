@@ -1,5 +1,5 @@
 export interface Product {
-    id: number;
+    id: string;
     name: string;
     price: number;
     quantity: number;
@@ -36,7 +36,7 @@ export class ProductManager {
                 <td>${product.price}</td>
                 <td>${product.quantity}</td>
                 <td>
-                    <button onclick="editProduct(${product.id})">Edit</button>
+                    <button onclick="editProduct('${product.id}')">Edit</button>
                     <button class="product-delete-btn">Delete</button>
                 </td>
             `;
@@ -67,7 +67,7 @@ export class ProductManager {
         });
     }
 
-    async getProductById(id: number): Promise<Product | undefined> {
+    async getProductById(id: string): Promise<Product | undefined> {
         return await fetch(`${API_URL}/${id}`)
             .then(response => response.json())
             .catch(error => {
@@ -80,14 +80,14 @@ export class ProductManager {
         return this.products;
     }
 
-    async updateProduct(id: number, updatedProduct: Partial<Product>): Promise<void> {
+    async updateProduct(id: string, updatedProduct: Partial<Product>): Promise<void> {
         const product = await this.getProductById(id);
         if (product) {
             Object.assign(product, updatedProduct);
         }
     }
 
-    async deleteProduct(id: number): Promise<void> {
+    async deleteProduct(id: string): Promise<void> {
         const product = await this.getProductById(id);
         if (product) {
             product.isDeleted = true;

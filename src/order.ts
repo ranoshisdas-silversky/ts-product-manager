@@ -1,8 +1,8 @@
 import { ProductManager, Product } from "./product.js";
 
 interface Order {
-    id: number;
-    productId: number;
+    id: string;
+    productId: string;
     quantity: number;
     totalPrice: number;
 }
@@ -50,15 +50,15 @@ export class OrderManager {
             <td>${order.quantity}</td>
             <td>${order.totalPrice}</td>
             <td>
-                <button onclick="editOrder(${order.id})">
+                <button onclick="editOrder('${order.id}')">
                     Edit
                 </button>
-                <button onclick="deleteOrder(${order.id})">
+                <button class="order-delete-btn">
                     Delete
                 </button>
             </td>
         `;
-            const deleteButton = row.querySelector('button:last-child') as HTMLButtonElement;
+            const deleteButton = row.querySelector('.order-delete-btn') as HTMLButtonElement;
             deleteButton.addEventListener('click', () => {
                 this.deleteOrder(order.id);
             });
@@ -70,7 +70,7 @@ export class OrderManager {
         this.orders.push(order);
     }
 
-    getOrderById(id: number): Order | undefined {
+    getOrderById(id: string): Order | undefined {
         return this.orders.find(order => order.id === id);
     }
 
@@ -78,14 +78,14 @@ export class OrderManager {
         return this.orders;
     }
 
-    updateOrder(id: number, updatedOrder: Partial<Order>): void {
+    updateOrder(id: string, updatedOrder: Partial<Order>): void {
         const order = this.getOrderById(id);
         if (order) {
             Object.assign(order, updatedOrder);
         }
     }
 
-    async deleteOrder(id: number): Promise<void> {
+    async deleteOrder(id: string): Promise<void> {
         const order = this.getOrderById(id);
         if (order) {
             await fetch(`${ORDER_API_URL}/${id}`, {

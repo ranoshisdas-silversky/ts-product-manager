@@ -40,7 +40,9 @@ export class DashboardManager {
     const products = await this.productManager.getAllProducts();
     const orders = await this.orderManager.getAllOrders();
 
-    this.dashboardData.totalProducts = products.length;
+    this.dashboardData.totalProducts = products.reduce(
+        (total, product) => total + (product.isDeleted ? 0 : 1),0);
+        
     this.dashboardData.totalOrders = orders.length;
 
     this.dashboardData.totalSales = orders.reduce(
@@ -48,7 +50,7 @@ export class DashboardManager {
         0
     );
 
-    const productSalesMap: Record<number, number> = {};
+    const productSalesMap: Record<string, number> = {};
 
     orders.forEach(order => {
         productSalesMap[order.productId] =
@@ -67,7 +69,7 @@ export class DashboardManager {
         );
 
         const product = products.find(
-            p => p.id == Number(productId)
+            p => p.id == productId
         );
 
         this.dashboardData.bestSellingProduct = {
