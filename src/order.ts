@@ -9,6 +9,7 @@ interface Order {
 
 const ORDER_API_URL = 'http://localhost:3000/orders';
 const orderTable = document.getElementById("orderTable") as HTMLTableSectionElement;
+const productSelect = document.getElementById("productSelect") as HTMLSelectElement;
 
 export class OrderManager {
     private orders: Order[] = [];
@@ -29,6 +30,15 @@ export class OrderManager {
 
     async renderOrders() {
         orderTable.innerHTML = '';
+        productSelect.innerHTML = '';
+        const products = await this.productManager.getAllProducts();
+        
+        products.forEach(product => {   
+            const option = document.createElement('option');
+            option.value = product.id.toString();
+            option.textContent = product.name;
+            productSelect.appendChild(option);
+        });
 
         for (const order of this.orders) {
             let product = await this.productManager.getProductById(order.productId);
