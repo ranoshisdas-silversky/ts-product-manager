@@ -33,11 +33,13 @@ export class OrderManager {
         productSelect.innerHTML = '';
         const products = await this.productManager.getAllProducts();
         
-        products.forEach(product => {   
+        products.forEach(product => {  
+            if (!product.isDeleted) { 
             const option = document.createElement('option');
             option.value = product.id.toString();
             option.textContent = product.name;
             productSelect.appendChild(option);
+            }
         });
 
         for (const order of this.orders) {
