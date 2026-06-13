@@ -84,6 +84,22 @@ export class ProductManager {
         const product = await this.getProductById(id);
         if (product) {
             Object.assign(product, updatedProduct);
+            await fetch(`${API_URL}/${id}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedProduct)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // console.log(`Product with ID ${id} updated.`, data);
+                this.initialize();
+                this.renderProducts();
+            })
+            .catch(error => {
+                console.error('Error updating product:', error);
+            });
         }
     }
 

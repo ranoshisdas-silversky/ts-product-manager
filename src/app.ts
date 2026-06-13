@@ -1,5 +1,5 @@
 import { ProductManager,Product } from "./product.js";
-import { OrderManager } from "./order.js";
+import { OrderManager,Order } from "./order.js";
 import { DashboardManager } from "./dashboard.js";
 
 const dashboardManager = new DashboardManager();
@@ -14,7 +14,7 @@ async function initializeApp() {
 
     await setDashboardData();
     await submitProductForm();
-
+    await submitOrderForm();
 }
 
 async function setDashboardData() {
@@ -44,6 +44,26 @@ async function submitProductForm() {
         
         await productManager.addProduct(newProduct);
         await productManager.renderProducts();
+        await setDashboardData();
+    });
+}
+
+async function submitOrderForm() {
+    document.getElementById("orderForm")!.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        // console.log("Order form submitted");
+        const productSelect = document.getElementById("productSelect") as HTMLSelectElement;
+        const quantityInput = document.getElementById("orderQuantity") as HTMLInputElement;
+
+        const newOrder: Order = {
+            id: '',
+            productId: productSelect.value,
+            quantity: parseInt(quantityInput.value),
+            totalPrice: 0 
+        };
+        
+        await orderManager.addOrder(newOrder);
+        await orderManager.renderOrders();
         await setDashboardData();
     });
 }

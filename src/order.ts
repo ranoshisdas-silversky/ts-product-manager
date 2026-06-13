@@ -1,6 +1,6 @@
 import { ProductManager, Product } from "./product.js";
 
-interface Order {
+export interface Order {
     id: string;
     productId: string;
     quantity: number;
@@ -68,8 +68,39 @@ export class OrderManager {
         }
     }
 
-    addOrder(order: Order): void {
-        this.orders.push(order);
+    async addOrder(order: Order): Promise<void> {
+        // console.log("Adding order:", order);
+        const product = await this.productManager.getProductById(order.productId);
+        if (product) {
+            order.totalPrice = product.price * order.quantity;
+            product.quantity -= order.quantity;
+            if (product.quantity < 0) {
+                alert(`Not enough stock for product ${product.name}. Available quantity: ${product.quantity + order.quantity}`);
+                return;
+            }
+            // console.log("Updating product quantity:", product.id, product.quantity);
+            await this.productManager.updateProduct(product.id, { quantity: product.quantity });
+        } else {
+            alert(`Product with ID ${order.productId} not found.`);
+            return;
+        }
+
+
+        fetch(ORDER_API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(order)
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Order added successfully!');
+            this.orders.push(data);
+        })
+        .catch(error => {
+            alert('Error adding order: ' + error.message);
+        });
     }
 
     getOrderById(id: string): Order | undefined {
